@@ -2,7 +2,6 @@ import requests
 from bs4 import BeautifulSoup
 
 URL = 'https://habr.com'
-advanced_task = True
 
 KEYWORDS = {'дизайн', 'фото', 'web', 'python'}
 
