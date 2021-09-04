@@ -2,7 +2,8 @@ import requests
 from bs4 import BeautifulSoup
 
 URL = 'https://habr.com'
-# DESIRED_HUBS = {'Python', 'Java*', 'Python*'}
+advanced_task = True
+
 KEYWORDS = {'дизайн', 'фото', 'web', 'python'}
 
 response = requests.get('https://habr.com/ru/all/')
@@ -10,17 +11,25 @@ response = requests.get('https://habr.com/ru/all/')
 response.raise_for_status()
 
 soup = BeautifulSoup(response.text, features='html.parser')
-article = soup.find('article')
-articles = soup.find_all('article')
+
+articles = soup.find_all('article', class_='tm-articles-list__item')
 
 for article in articles:
-    hubs = article.find_all('a', class_='tm-article-snippet__hubs-item-link')
-    hubs = {hub.text.strip() for hub in hubs}
-    spans = article.find('a', class_ = 'tm-article-snippet__readmore')
-    spans = {span.text.strip() for span in spans}
+    article_time = article.find('span', class_='tm-article-snippet__datetime-published').text
+    article_title = article.find('h2', class_ = 'tm-article-snippet__title tm-article-snippet__title_h2').text
+    article_title_links = article.find('a', class_='tm-article-snippet__title-link').attrs.get('href')
+    article_title_link = URL + article_title_links
 
-    if KEYWORDS & spans:
-        time_pub = article.find('span', class_ = 'tm-article-snippet__datetime-published')
-        title = article.find('h2')
-        href = title.find('a').attrs.get('href')
-        print(title.text, URL + href, time_pub.text)
+    article_text = article.find('div', class_='tm-article-body tm-article-snippet__lead').text
+
+    article_word = {word for word in article_text.split(' ')}
+
+    if KEYWORDS & article_word:
+        print(f'{article_time} - {article_title} - {article_title_link}')
+
+
+
+
+
+
+
