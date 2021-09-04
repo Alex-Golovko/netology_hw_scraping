@@ -14,7 +14,7 @@ articles = soup.find_all('article', class_='tm-articles-list__item')
 
 for article in articles:
     article_time = article.find('span', class_='tm-article-snippet__datetime-published').text
-    article_title = article.find('h2', class_ = 'tm-article-snippet__title tm-article-snippet__title_h2').text
+    article_title = article.find('h2', class_='tm-article-snippet__title tm-article-snippet__title_h2').text
     article_title_links = article.find('a', class_='tm-article-snippet__title-link').attrs.get('href')
     article_title_link = URL + article_title_links
     article_text = article.find('div', class_='tm-article-body tm-article-snippet__lead').text
@@ -27,10 +27,3 @@ for article in articles:
 
     if KEYWORDS & post_word:
         print(f'{article_time} - {article_title} - {article_title_link}')
-
-
-
-
-
-
-
