@@ -10,7 +10,6 @@ response = requests.get('https://habr.com/ru/all/')
 response.raise_for_status()
 
 soup = BeautifulSoup(response.text, features='html.parser')
-
 articles = soup.find_all('article', class_='tm-articles-list__item')
 
 for article in articles:
@@ -19,6 +18,7 @@ for article in articles:
     article_title_links = article.find('a', class_='tm-article-snippet__title-link').attrs.get('href')
     article_title_link = URL + article_title_links
     article_text = article.find('div', class_='tm-article-body tm-article-snippet__lead').text
+
     post = requests.get(article_title_link)
     post.raise_for_status()
     post_soup = BeautifulSoup(post.text, features='html.parser')
